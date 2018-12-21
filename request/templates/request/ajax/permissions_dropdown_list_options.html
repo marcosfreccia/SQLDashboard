@@ -1,0 +1,4 @@
+﻿<option value="">---------</option>
+{% for permission in permissions %}
+<option value="{{ permission.pk }}">{{ permission.name }}</option>
+{% endfor %}

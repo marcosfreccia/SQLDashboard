@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="wrapper">
+        <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Welcome</h1>
+                    </div>
+                    <p>Welcome to SQL Dashboard.
+                            After you have logged you will be able to use this website. Enjoy!</p>
+                               <p style="margin-top: 1em">
+                               {%if user.is_authenticated %}
+                       
+                                   {%else%}
+                                   <a href="{% url 'login' %}">Click here to login</a></a>
+                                   {%endif%}
+                               </p>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-4">
+                               <h4>Getting started</h4>
+                               <p>Your first step is setup your profile on SQL Dashboard.</p>
+                               <p><a class="btn btn-default" target="_blank" href="https://confluence.zalando.net/display/BE/Database+Services">Learn more &raquo;</a></p>
+                           </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+</div>
+{% endblock content %}

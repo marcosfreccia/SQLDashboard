@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+{% block javascript %}
+
+<script>
+    $("#id_version").change(function () {
+      var form = $(this).closest("form");  // get the url of the `load_cities` view
+      var versionId = $(this).val();  // get the selected country ID from the HTML input
+      $.ajax({                       // initialize an AJAX request
+        url: form.attr("data-servers-url"),                    // set the url of the request
+        data: {
+            'version': versionId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_server_name").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+
+<script>
+    $("#id_database_name").change(function () {
+       var form = $(this).closest("form");
+       $.ajax({
+         url: form.attr("data-validate-database-name-url"),
+         data: form.serialize(),
+         dataType: 'json',
+         success: function (data) {
+             if (data.is_taken) {
+                 alert(data.error_message);
+                 $("#id_database_name").attr("disabled", false).css("color", "#F30D1C");
+                 $("#id_submit").attr("disabled", true)
+             }
+             else {
+                 $("#id_database_name").attr("disabled", false).css("color", "#000000");
+                 $("#id_submit").attr("disabled", false)
+             }
+         }
+       });
+ 
+     });
+   </script>
+
+{% endblock javascript %}
+
+
+{% block title %}
+New Database
+{% endblock title %}
+
+
+{% block content %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+<div id="wrapper">
+    <div id="page-wrapper">
+
+        {% if result == "submitted" %}
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <meta http-equiv="refresh" content="2;url={% url 'over_time' %}" />
+            Your request has been processed
+        </div>
+        {% endif %}
+
+        <form action="#" method="post" data-servers-url="{% url 'ajax_load_servers_per_version' %}" data-validate-database-name-url="{% url 'ajax_validate_database_name' %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-3">
+                    {{form.version|as_crispy_field }}
+                </div>
+                <div class="col-3">
+                    {{form.server_name|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    {{form.database_name|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    {{form.size|as_crispy_field }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

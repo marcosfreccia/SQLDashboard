@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Active Request : {{ restore.database_needed }}
+{% endblock title %}
+
+{% block content %}
+ 
+{% if result == "deleted" %}
+<div class="alert alert-dismissible alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <meta http-equiv="refresh" content="5;url={% url 'home' %}" />
+  Your request has been canceled as requested.
+</div>
+{% endif %}
+
+<table class="table table-responsive-xl">   
+  <thead>
+  <tr>
+    <th>Server Name</th>
+    <th>Edition</th>
+    <th>Cummulative Update</th>
+  </tr>
+</thead>
+  <tbody>
+  {% for server in servers_list %}
+    <tr>
+    <td nowrap>{{server.server_name}}</td>
+    <td>{{server.edition}}</td>
+    <td>{{server.cummulative_update}}</td>
+    </tr> 
+      {% endfor %}
+  </tbody>
+ </table>
+
+
+{% endblock content %}
