@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import configparser
 
+config = configparser.ConfigParser()
+config.read(r'C:\Users\mfreccia\Documents\Private\GitHub\SQLDashboard\settings.cfg')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-))(izyr*ls+&d#$u*^^6l)0#bx4q3dq2r+d)^w7r$=3e(0r&y'
+SECRET_KEY = config['django_secret_key']['secret_key_value']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -96,27 +99,27 @@ WSGI_APPLICATION = 'SQLDashboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-     }
- }
-
-# DATABASES = {
+#DATABASES = {
 #     'default': {
-#         'ENGINE': 'sql_server.pyodbc',
-#         'NAME': 'SQLDashboard',
-#         'HOST': "localhost",
-#         'USER': 'sqldash-usr',
-#         'PASSWORD': 'P@ssw0rd3655',
-#         'OPTIONS': {
-#         'driver': 'ODBC Driver 17 for SQL Server',
-#         'dns': 'MSSQL',
-#         'extra_params': "APP=SQL Dashboard - Connection to SQLDashboard_DEV"
-#         },
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'sql_server.pyodbc',
+         'NAME': config['sqlserver_default']['database'],
+         'HOST': config['sqlserver_default']['host'],
+         'USER': config['sqlserver_default']['username'],
+         'PASSWORD': config['sqlserver_default']['password'],
+         'OPTIONS': {
+         'driver': 'ODBC Driver 17 for SQL Server',
+         'dns': 'MSSQL',
+         'extra_params': "APP=SQL Dashboard - Connection to SQL Dashboard"
+         },
+     }
+ }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -165,8 +168,8 @@ LOGIN_REDIRECT_URL = 'user_home'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-SOCIAL_AUTH_GITHUB_KEY = '99d91989c855f81f7f78'
-SOCIAL_AUTH_GITHUB_SECRET = '2d0eb48ee3bc03f13da729fbc5c3c63401e5f573'
+SOCIAL_AUTH_GITHUB_KEY = config['github_auth']['SOCIAL_AUTH_GITHUB_KEY']
+SOCIAL_AUTH_GITHUB_SECRET = config['github_auth']['SOCIAL_AUTH_GITHUB_SECRET']
 
 # Google OAuth2 (google-oauth2)
 SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
@@ -186,5 +189,5 @@ SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_USE_DEPRECATED_API = True
 SOCIAL_AUTH_GOOGLE_PLUS_USE_DEPRECATED_API = True
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='131079423418-ct5ho7q80cddn7ghjm36qvg7qvgj9iat.apps.googleusercontent.com'  #Paste CLient Key
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '7w1MtRyJkls-Fo1Z4Ck9z3IM' #Paste Secret Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config['google_auth']['SOCIAL_AUTH_GOOGLE_OAUTH2_KEY']  #Paste CLient Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config['google_auth']['SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'] #Paste Secret Key
