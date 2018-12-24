@@ -17,7 +17,7 @@ https://fosstack.com/how-to-add-google-authentication-in-django/
 SQL Dashboard uses a configuration file to store some confidential information such as: Django
 Secret Key, Database credentials, Github and Google Keys for the authentication backend.
 
-`[django_secret_key]
+```[django_secret_key]
 secret_key_value: DjangoKeyHere
 
 [sqlserver_default]
@@ -41,4 +41,5 @@ SOCIAL_AUTH_GITHUB_SECRET: YourSecret
 
 [google_auth]
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY: YourKey
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET: YourSecret`
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET: YourSecret
+```
